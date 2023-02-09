@@ -7,8 +7,11 @@ import { sendToBackground } from '@plasmohq/messaging'
 import type { Video } from '~services/StorageService'
 import { getLastVideo, getVideos } from '~services/StorageService'
 
+import '~css/base.css'
+import '~css/style.css'
+
 export const config: PlasmoCSConfig = {
-  matches: ['https://www.plasmo.com/*', 'https://*/*', 'http://*/*'],
+  matches: ['https://*/*', 'http://*/*'],
   css: ['font.css']
 }
 
@@ -31,7 +34,7 @@ const PlasmoOverlay = () => {
   }, [])
 
   return (
-    <div>
+    <div className="fixed z-100">
       <span
         className="hw-top"
         style={{
@@ -46,7 +49,7 @@ const PlasmoOverlay = () => {
           })
           setCurrentTab(resp.url)
         }}>
-        iframe mounting
+        iframe mounting 12
       </button>
     </div>
   )

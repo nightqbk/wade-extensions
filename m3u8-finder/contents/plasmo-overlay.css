@@ -1,12 +1,18 @@
 .hw-top {
   background: red;
   color: white;
-  font-family: "Fascinate";
+  font-family: 'Fascinate';
 }
 
 #plasmo-shadow-container {
-  width: 1500px;
+  width: 100%;
+  height: 50px;
   background-color: purple;
+}
+
+.plasmo-csui-container {
+  right: 0px;
+  padding-right: 100px;
 }
 
 #plasmo-mount-container {
