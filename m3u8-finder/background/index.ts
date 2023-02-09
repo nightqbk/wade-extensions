@@ -4,7 +4,7 @@ chrome.declarativeNetRequest.updateDynamicRules(
   {
     addRules: [
       {
-        id: 10,
+        id: 11,
         action: {
           type: 'modifyHeaders',
           requestHeaders: [
@@ -27,8 +27,29 @@ chrome.declarativeNetRequest.updateDynamicRules(
   }
 )
 
-chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((detail) => {
-  updateVideo(detail.request.url, detail.request.url).then(() => {
-    console.log('save url', detail.request.url)
-  })
+getVideos().then((c) => {
+  console.log('videos', c)
+})
+
+chrome.declarativeNetRequest.getDynamicRules((e) => {
+  console.log('getDynamicRules', e)
+})
+
+chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((matched) => {
+  if (matched.request.url.indexOf('.m3u8') > -1) {
+    updateVideo(matched.request.url, matched.request.tabId).then(() => {
+      console.log('save url', matched.request.url)
+
+      getVideos().then((c) => {
+        console.log(c)
+      })
+    })
+  }
+
+  console.log(
+    'requestDetail',
+    matched.request.url,
+    matched.request.url.indexOf('.m3u8')
+  )
+  // if()
 })
