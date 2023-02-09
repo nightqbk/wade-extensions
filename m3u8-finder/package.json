@@ -32,7 +32,8 @@
       "declarativeNetRequest",
       "declarativeNetRequestWithHostAccess",
       "declarativeNetRequestFeedback",
-      "tabs"
+      "tabs",
+      "activeTab"
     ],
     "host_permissions": [
       "https://*/*"

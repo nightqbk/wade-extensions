@@ -27,29 +27,23 @@ chrome.declarativeNetRequest.updateDynamicRules(
   }
 )
 
-getVideos().then((c) => {
-  console.log('videos', c)
-})
-
 chrome.declarativeNetRequest.getDynamicRules((e) => {
-  console.log('getDynamicRules', e)
+  // console.log('getDynamicRules', e)
 })
 
 chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((matched) => {
   if (matched.request.url.indexOf('.m3u8') > -1) {
     updateVideo(matched.request.url, matched.request.tabId).then(() => {
-      console.log('save url', matched.request.url)
-
-      getVideos().then((c) => {
-        console.log(c)
-      })
+      // console.log('save url', matched.request.url, matched.request)
+      // getVideos().then((c) => {
+      //   console.log(c)
+      // })
     })
   }
 
-  console.log(
-    'requestDetail',
-    matched.request.url,
-    matched.request.url.indexOf('.m3u8')
-  )
-  // if()
+  // console.log(
+  //   'requestDetail',
+  //   matched.request.url,
+  //   matched.request.url.indexOf('.m3u8')
+  // )
 })

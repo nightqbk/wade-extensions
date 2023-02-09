@@ -10,7 +10,7 @@ const storage = new Storage({
   area: 'local'
 })
 
-type Video = {
+export type Video = {
   title: string
   url: string
   pageUrl?: string
@@ -33,10 +33,20 @@ export const getLastVideo = async () => {
   return null
 }
 
+export const getVideoByTabId = async (tabId: number) => {
+  const videos = await storage.get<Video[]>(keys.videos)
+  if (videos) {
+    return videos.find((c) => c.tabId === tabId)
+  }
+
+  return null
+}
+
 export const updateVideo = async (
   url: string,
   tabId: number,
-  title: string = null
+  title: string = null,
+  pageUrl: string = null
 ) => {
   let videos = await storage.get<Video[]>(keys.videos)
   if (videos === undefined) {
@@ -47,12 +57,15 @@ export const updateVideo = async (
   if (existed) {
     existed.timestamp = Date.parse(new Date().toString())
     existed.title = title
+    existed.pageUrl = pageUrl
+    existed.timestamp = Date.parse(new Date().toString())
   } else {
     const newVideo: Video = {
       url: url,
       title: title,
       tabId: tabId,
       timestamp: Date.parse(new Date().toString()),
+      pageUrl: pageUrl,
       id: uuidv4()
     }
 
