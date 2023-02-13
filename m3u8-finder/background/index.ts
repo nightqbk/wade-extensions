@@ -1,10 +1,12 @@
-import { getVideos, updateVideo } from '../services/StorageService'
+import random from 'random'
+
+import { addVideo, getVideos } from '../services/TempVideoStorageService'
 
 chrome.declarativeNetRequest.updateDynamicRules(
   {
     addRules: [
       {
-        id: 11,
+        id: random.int(11, 99999999),
         action: {
           type: 'modifyHeaders',
           requestHeaders: [
@@ -33,17 +35,11 @@ chrome.declarativeNetRequest.getDynamicRules((e) => {
 
 chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((matched) => {
   if (matched.request.url.indexOf('.m3u8') > -1) {
-    updateVideo(matched.request.url, matched.request.tabId).then(() => {
-      // console.log('save url', matched.request.url, matched.request)
+    addVideo(matched.request.url, matched.request.tabId).then(() => {
+      // console.log('save url', matched.request.url, matched.request, matched)
       // getVideos().then((c) => {
       //   console.log(c)
       // })
     })
   }
-
-  // console.log(
-  //   'requestDetail',
-  //   matched.request.url,
-  //   matched.request.url.indexOf('.m3u8')
-  // )
 })
