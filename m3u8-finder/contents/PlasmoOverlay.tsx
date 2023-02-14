@@ -100,24 +100,34 @@ const PlasmoOverlay = () => {
         <div className="basis-5/12">{videoUrl}</div>
         <div className="basis-5/12">{videoTitle}</div>
         <div className="basis-2/12">
-          <button
+          <button className="btn" onClick={syncUrl}>
+            Get Url
+          </button>
+          {/* <button
             className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"
             onClick={syncUrl}>
             Get Url
-          </button>
+          </button> */}
 
-          <button
-            className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"
-            onClick={addVideo}>
+          <button className="btn btn-primary" onClick={addVideo}>
             Add to export list
           </button>
 
+          {/* <button
+            className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"
+            onClick={addVideo}>
+            Add to export list
+          </button> */}
+
           <CopyToClipboard text={copiedText}>
-            <button
+            <button className="btn btn-accent" onClick={addVideo}>
+              Copy to clipboard
+            </button>
+            {/* <button
               className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"
               onClick={addVideo}>
               Copy to clipboard
-            </button>
+            </button> */}
           </CopyToClipboard>
         </div>
       </div>
