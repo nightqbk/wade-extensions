@@ -6,3 +6,10 @@ export type Video = {
   id: string
   timestamp: number
 }
+
+export type Rule = {
+  id: string
+  domain: string
+  xpath: string
+  isNew?: boolean
+}
