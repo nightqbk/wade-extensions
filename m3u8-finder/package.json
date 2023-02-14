@@ -13,12 +13,12 @@
     "@plasmohq/messaging": "^0.1.0",
     "@plasmohq/storage": "^1.0.4",
     "bip39": "^3.0.4",
-    "daisyui": "^2.50.0",
     "plasmo": "0.64.5",
     "random": "^4.1.0",
     "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
+    "tw-elements": "1.0.0-alpha13",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
