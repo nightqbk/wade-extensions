@@ -62,10 +62,22 @@ const PlasmoOverlay = () => {
 
   const getTitle = (): string => {
     const nodes = $x(
+      // '//*[@id="site-content"]/div/div/div[1]/section[2]/div[1]/div[1]/h4'
       '//*[@id="site-content"]/div/div/div[1]/section[2]/div[1]/div[1]/h4'
     )
     const title = nodes[0].innerText
     return title
+  }
+
+  const cleanVideos = async () => {
+    const resp = await sendToBackground<any, Video>({
+      name: 'clean-videos',
+      body: '123'
+    })
+    if (resp) {
+      console.log('resp', resp)
+      alert('clean success')
+    }
   }
 
   const syncUrl = async () => {
@@ -100,8 +112,8 @@ const PlasmoOverlay = () => {
         <div className="basis-5/12">{videoUrl}</div>
         <div className="basis-5/12">{videoTitle}</div>
         <div className="basis-2/12">
-          <button className="btn" onClick={syncUrl}>
-            Get Url
+          <button className="btn" onClick={cleanVideos}>
+            Clean Videos
           </button>
           {/* <button
             className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"

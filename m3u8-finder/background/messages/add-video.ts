@@ -4,7 +4,7 @@ import type { Video } from '~models/model.types'
 import { addVideo } from '~services/VideoStorageService'
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  const video = req.body.video as Video
+  const video = req.body as Video
   if (video) {
     await addVideo(video)
   }
