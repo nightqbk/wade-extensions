@@ -39,43 +39,51 @@ const VideoManage = () => {
   }
 
   return (
-    <div className="mt-8">
-      <div className="overflow-x-auto w-full">
-        <table className="table table-fixed w-full">
-          <thead>
-            <tr>
-              <th className="w-1/12">
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <th className="w-4/12">标题</th>
-              <th className="w-5/12">M3u8 Url</th>
-              <th className="w-2/12">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {videos &&
-              videos.map((c) => (
-                <VideoItem
-                  key={c.id}
-                  video={c}
-                  onCheck={handleCheck}
-                  onRemove={handleRemove}
-                />
-              ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>标题</th>
-              <th>M3u8 Url</th>
-              <th>操作</th>
-            </tr>
-          </tfoot>
-        </table>
+    <>
+      <div className="btn-group mt-4 float-right pb-2">
+        <button className="btn btn-active btn-outline btn-error">
+          删除选中
+        </button>
+        <button className="btn btn-accent">导出选中</button>
       </div>
-    </div>
+      <div className="mt-4">
+        <div className="overflow-x-auto w-full">
+          <table className="table table-fixed w-full">
+            <thead>
+              <tr>
+                <th className="w-1/12">
+                  <label>
+                    <input type="checkbox" className="checkbox" />
+                  </label>
+                </th>
+                <th className="w-4/12">标题</th>
+                <th className="w-5/12">M3u8 Url</th>
+                <th className="w-2/12">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {videos &&
+                videos.map((c) => (
+                  <VideoItem
+                    key={c.id}
+                    video={c}
+                    onCheck={handleCheck}
+                    onRemove={handleRemove}
+                  />
+                ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th>标题</th>
+                <th>M3u8 Url</th>
+                <th>操作</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </>
   )
 }
 
