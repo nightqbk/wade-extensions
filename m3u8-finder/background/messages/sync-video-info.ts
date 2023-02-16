@@ -2,6 +2,7 @@ import type { PlasmoMessaging } from '@plasmohq/messaging'
 
 import {
   getLastVideoByTabId,
+  getVideos,
   updateVideo
 } from '~services/TempVideoStorageService'
 
@@ -17,6 +18,8 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   } else {
     // video 不存在 或者已经在storage 里面了
     console.log('background worker can not find video match the tabId')
+    const temp = await getVideos()
+    console.log('temp', temp)
   }
 
   res.send(video)

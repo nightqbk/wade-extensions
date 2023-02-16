@@ -40,7 +40,7 @@ export const getLastVideoByTabId = async (tabId: number) => {
       .filter((c) => {
         return c.tabId === tabId
       })
-      .sort((c) => c.timestamp)
+      .sort((a, b) => b.timestamp - a.timestamp)
 
     return tabVideos[0]
   }
@@ -85,6 +85,5 @@ export const updateVideo = async (
     return c
   })
 
-  console.log('videos', updatedVideos)
   await storage.set(keys.videos, updatedVideos)
 }

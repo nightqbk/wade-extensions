@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 
 import type { Rule } from '~models/model.types'
@@ -9,10 +10,15 @@ import ConfigItem from './ConfigItem'
 
 const CustomConfig = () => {
   const [rules, setRules] = useState<Array<Rule>>([])
+  const [m3u8, setM3u8] = useState<string>('')
 
   useEffect(() => {
     getRules().then((res) => {
       setRules(res)
+    })
+
+    getM3u8Rules().then((res) => {
+      setM3u8(res)
     })
   }, [])
 
@@ -26,6 +32,16 @@ const CustomConfig = () => {
     setRules(newRules)
   }
 
+  const handleM3u8Change = (e) => {
+    setM3u8(e.target.value)
+  }
+
+  const handleSaveM3u8 = () => {
+    updateM3u8Rules(m3u8).then(() => {
+      toast('保存成功')
+    })
+  }
+
   return (
     <>
       <div className="m3u8 my-2">
@@ -33,8 +49,10 @@ const CustomConfig = () => {
         <div className="mb-2">
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="M3U8 match rules"
             className="input input-bordered w-full"
+            value={m3u8}
+            onChange={handleM3u8Change}
           />
         </div>
 
@@ -42,7 +60,9 @@ const CustomConfig = () => {
           <p className="text-base text-blue-600/75">
             The m3u8 rule is split by <kbd className="kbd">;</kbd>
           </p>
-          <button className="btn btn-primary">保存</button>
+          <button className="btn btn-primary" onClick={handleSaveM3u8}>
+            保存
+          </button>
         </div>
       </div>
       <div className="divider">AND</div>

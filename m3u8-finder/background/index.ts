@@ -3,6 +3,7 @@ import random from 'random'
 import { v4 as uuidv4 } from 'uuid'
 
 import type { Video } from '~models/model.types'
+import { getM3u8Rules } from '~services/ConfigService'
 
 import { addVideo } from '../services/TempVideoStorageService'
 
@@ -37,22 +38,30 @@ chrome.declarativeNetRequest.getDynamicRules((e) => {
   // console.log('getDynamicRules', e)
 })
 
-const addMeu8Video = (matched) => {
+const addMeu8Video = async (matched) => {
   const video: Video = {
     id: uuidv4(),
     url: matched.request.url,
     tabId: matched.request.tabId,
     timestamp: Date.parse(new Date().toString())
   }
-  addVideo(video).then((c) => {
-    // console.log('add successful', video)
-  })
+  await addVideo(video)
 }
 
-chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((matched) => {
+chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(async (matched) => {
   if (matched.request.url.indexOf('.m3u8') > -1) {
     // 最早添加video url的地方
-    addMeu8Video(matched)
+    await addMeu8Video(matched)
   } else {
+    const ruleStr = await getM3u8Rules()
+    if (ruleStr) {
+      const rules = ruleStr.split(';')
+      for (const m3u8Rule of rules) {
+        if (matched.request.url.indexOf(m3u8Rule) > -1) {
+          await addMeu8Video(matched)
+          return
+        }
+      }
+    }
   }
 })
