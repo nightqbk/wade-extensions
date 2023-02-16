@@ -1,24 +1,42 @@
 import { useEffect, useState } from 'react'
+import { CSVDownload, CSVLink } from 'react-csv'
 
 import type { Video, Video2 } from '~models/model.types'
 import { getVideos, removeVideo } from '~services/VideoStorageService'
 
 import VideoItem from './VideoItem'
 
+const csvHeaders = [
+  { label: 'title', key: 'title' },
+  { label: 'url', key: 'url' },
+  { label: 'pageUrl', key: 'pageUrl' }
+]
+
 const VideoManage = () => {
   const [videos, setVideos] = useState<Array<Video2>>([])
+  const [isCheckAll, setIsCheckAll] = useState<boolean>(false)
 
   useEffect(() => {
     getVideos().then((res) => {
       const videos2: Video2[] = res.map((c) => {
         return {
           ...c,
-          isChecked: true
+          isChecked: false
         }
       })
       setVideos(videos2)
     })
   }, [])
+
+  const handleCheckAll = () => {
+    const newVideos = videos.map((c) => {
+      c.isChecked = !isCheckAll
+      return c
+    })
+
+    setIsCheckAll(!isCheckAll)
+    setVideos(newVideos)
+  }
 
   const handleCheck = (id: string) => {
     const newVideos = videos.map((c) => {
@@ -38,13 +56,60 @@ const VideoManage = () => {
     })
   }
 
+  const handleRemoveSelected = async () => {
+    const toRemoveVideos = videos.filter((c) => c.isChecked)
+    toRemoveVideos.forEach(async (video) => {
+      await removeVideo(video.id)
+    })
+
+    const newVideos = videos.filter((c) => c.isChecked === false)
+    setVideos(newVideos)
+  }
+
   return (
     <>
-      <div className="btn-group mt-4 float-right pb-2">
-        <button className="btn btn-active btn-outline btn-error">
-          删除选中
-        </button>
-        <button className="btn btn-accent">导出选中</button>
+      <div className="flex mt-4 justify-between">
+        <div>
+          <CSVLink
+            filename={'videos.csv'}
+            // header={csvHeaders}
+            data={videos.map((c) => {
+              return {
+                title: c.title,
+                url: c.url,
+                pageUrl: c.pageUrl,
+                created: c.timestamp
+              }
+            })}>
+            <button className="btn gap-2">
+              导出所有
+              <div className="badge badge-secondary">{videos.length}</div>
+            </button>
+          </CSVLink>
+        </div>
+        <div className="btn-group float-right pb-2">
+          <button
+            className="btn btn-outline btn-error"
+            onClick={handleRemoveSelected}>
+            删除选中
+          </button>
+          <CSVLink
+            className="btn btn-accent"
+            filename={'videos.csv'}
+            header={csvHeaders}
+            data={videos
+              .filter((c) => c.isChecked)
+              .map((c) => {
+                return {
+                  title: c.title,
+                  url: c.url,
+                  pageUrl: c.pageUrl,
+                  created: c.timestamp
+                }
+              })}>
+            导出选中
+          </CSVLink>
+        </div>
       </div>
       <div className="mt-4">
         <div className="overflow-x-auto w-full">
@@ -53,7 +118,12 @@ const VideoManage = () => {
               <tr>
                 <th className="w-1/12">
                   <label>
-                    <input type="checkbox" className="checkbox" />
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={isCheckAll}
+                      onClick={handleCheckAll}
+                    />
                   </label>
                 </th>
                 <th className="w-4/12">标题</th>
