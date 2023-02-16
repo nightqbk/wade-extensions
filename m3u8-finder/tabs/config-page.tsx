@@ -15,7 +15,7 @@ enum Tabs {
 }
 
 const DeltaFlyerPage = () => {
-  const [currentTab, setCurrentTab] = useState<Tabs>(Tabs.Videos)
+  const [currentTab, setCurrentTab] = useState<Tabs>(Tabs.Config)
   const handleSwitchTab = (e) => {
     const tab = e.target.dataset.tab as Tabs
     setCurrentTab(tab)

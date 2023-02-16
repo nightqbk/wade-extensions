@@ -69,10 +69,10 @@ const ConfigItem = (props) => {
       </div>
       <div className="basis-2/12 flex flex-row justify-around">
         <button className="btn btn-primary" onClick={handleSave}>
-          Save
+          保存
         </button>
         <button className="btn btn-error" onClick={handleDelete}>
-          Delete
+          删除
         </button>
       </div>
     </div>
