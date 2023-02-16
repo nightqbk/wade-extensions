@@ -1,4 +1,7 @@
-import { ChangeEventHandler, useState } from 'react'
+import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 import VideoManage from '~components/VideoManage'
 
@@ -40,6 +43,7 @@ const DeltaFlyerPage = () => {
       </div>
       {Tabs.Config == currentTab && <CustomerConfig />}
       {Tabs.Videos == currentTab && <VideoManage />}
+      <ToastContainer />
     </div>
   )
 }

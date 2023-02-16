@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { CSVDownload, CSVLink } from 'react-csv'
+import { CSVLink } from 'react-csv'
+import { toast } from 'react-toastify'
 
 import type { Video, Video2 } from '~models/model.types'
 import { getVideos, removeVideo } from '~services/VideoStorageService'
