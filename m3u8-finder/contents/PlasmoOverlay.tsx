@@ -43,12 +43,13 @@ const PlasmoOverlay = () => {
   const [videoTitle, setVideoTitle] = useState('')
   const [copiedText, setCopiedText] = useState('')
   const [isOpenMore, setIsOpenMore] = useState(false)
+  const [tryTimes, setTryTimes] = useState(0)
 
   useInterval(
     () => {
       syncUrl()
     },
-    videoUrl === '' ? 1000 : null
+    videoUrl === '' && tryTimes < 5 ? 1000 : null
   )
 
   useEffect(() => {
@@ -66,7 +67,10 @@ const PlasmoOverlay = () => {
       // '//*[@id="site-content"]/div/div/div[1]/section[2]/div[1]/div[1]/h4'
       '//*[@id="site-content"]/div/div/div[1]/section[2]/div[1]/div[1]/h4'
     )
-    const title = nodes[0].innerText
+    let title = ''
+    if (nodes && nodes.length > 0) {
+      title = nodes[0].innerText
+    }
     return title
   }
 
@@ -82,6 +86,7 @@ const PlasmoOverlay = () => {
   }
 
   const syncUrl = async () => {
+    console.log('try times')
     const resp = await sendToBackground<any, Video>({
       name: 'sync-video-info',
       body: {
@@ -94,6 +99,8 @@ const PlasmoOverlay = () => {
       setVideoTitle(resp.title)
       setCurrentVideo(resp)
     }
+
+    setTryTimes(tryTimes + 1)
   }
 
   const addVideo = async () => {
@@ -110,7 +117,7 @@ const PlasmoOverlay = () => {
   const handleShowPanel = () => {
     setIsOpenMore(!isOpenMore)
   }
-  // w-1/4
+
   return (
     <div className="fixed top-50 right-2">
       <div className="buttonContainer flex mt-2 mb-3 justify-end">
