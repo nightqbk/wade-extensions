@@ -9,6 +9,7 @@ export interface Video {
 
 export interface Video2 extends Video {
   isChecked: boolean
+  created: Date
 }
 
 export type Rule = {

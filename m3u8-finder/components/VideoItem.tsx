@@ -37,6 +37,11 @@ const VideoItem = ({ video, onCheck, onRemove }: { video: Video2 }) => {
         <div className="whitespace-normal truncate">{video.url}</div>
       </td>
       <td>
+        <div className="whitespace-normal truncate badge badge-lg">
+          {video.created.toLocaleString('zh-CN')}
+        </div>
+      </td>
+      <td>
         <div className="flex justify-end">
           <button className="btn btn-primary mr-2">复制</button>
           <button className="btn btn-secondary" onClick={handleRemove}>

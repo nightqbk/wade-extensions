@@ -6,12 +6,6 @@ import { getVideos, removeVideo } from '~services/VideoStorageService'
 
 import VideoItem from './VideoItem'
 
-const csvHeaders = [
-  { label: 'title', key: 'title' },
-  { label: 'url', key: 'url' },
-  { label: 'pageUrl', key: 'pageUrl' }
-]
-
 const VideoManage = () => {
   const [videos, setVideos] = useState<Array<Video2>>([])
   const [isCheckAll, setIsCheckAll] = useState<boolean>(false)
@@ -21,7 +15,8 @@ const VideoManage = () => {
       const videos2: Video2[] = res.map((c) => {
         return {
           ...c,
-          isChecked: false
+          isChecked: false,
+          created: new Date(c.timestamp)
         }
       })
       setVideos(videos2)
@@ -72,13 +67,12 @@ const VideoManage = () => {
         <div>
           <CSVLink
             filename={'videos.csv'}
-            // header={csvHeaders}
             data={videos.map((c) => {
               return {
                 title: c.title,
                 url: c.url,
                 pageUrl: c.pageUrl,
-                created: c.timestamp
+                created: c.created.toLocaleString('zh-cn')
               }
             })}>
             <button className="btn gap-2">
@@ -96,7 +90,6 @@ const VideoManage = () => {
           <CSVLink
             className="btn btn-accent"
             filename={'videos.csv'}
-            header={csvHeaders}
             data={videos
               .filter((c) => c.isChecked)
               .map((c) => {
@@ -104,7 +97,7 @@ const VideoManage = () => {
                   title: c.title,
                   url: c.url,
                   pageUrl: c.pageUrl,
-                  created: c.timestamp
+                  created: c.created.toLocaleString('zh-cn')
                 }
               })}>
             导出选中
@@ -126,8 +119,9 @@ const VideoManage = () => {
                     />
                   </label>
                 </th>
-                <th className="w-4/12">标题</th>
-                <th className="w-5/12">M3u8 Url</th>
+                <th className="w-3/12">标题</th>
+                <th className="w-4/12">M3u8 Url</th>
+                <th className="w-2/12">新增时间</th>
                 <th className="w-2/12">操作</th>
               </tr>
             </thead>
@@ -147,6 +141,7 @@ const VideoManage = () => {
                 <th></th>
                 <th>标题</th>
                 <th>M3u8 Url</th>
+                <th>新增时间</th>
                 <th>操作</th>
               </tr>
             </tfoot>

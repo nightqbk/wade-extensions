@@ -12,7 +12,9 @@ const storage = new Storage({
 
 export const getVideos = async () => {
   const videos = await storage.get<Video[]>(keys.videos)
-  return videos
+  return videos.sort((a, b) => {
+    return b.timestamp - a.timestamp
+  })
 }
 
 export const cleanVideos = async () => {

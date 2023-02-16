@@ -23,15 +23,19 @@ const DeltaFlyerPage = () => {
       <div className="tabs tabs-boxed justify-center">
         <a
           data-tab={Tabs.Config}
-          className={`tab ${Tabs.Config == currentTab ? 'tab-active' : ''}`}
+          className={`tab tab-lg ${
+            Tabs.Config == currentTab ? 'tab-active' : ''
+          }`}
           onClick={handleSwitchTab}>
-          Config
+          配置
         </a>
         <a
           data-tab={Tabs.Videos}
-          className={`tab ${Tabs.Videos == currentTab ? 'tab-active' : ''}`}
+          className={`tab tab-lg ${
+            Tabs.Videos == currentTab ? 'tab-active' : ''
+          }`}
           onClick={handleSwitchTab}>
-          Videos
+          视频
         </a>
       </div>
       {Tabs.Config == currentTab && <CustomerConfig />}
