@@ -1,7 +1,7 @@
 // import cssText from 'data-text:~/contents/plasmo-overlay.css'
 import cssText from 'data-text:~/css/style.css'
 import type { PlasmoCSConfig, PlasmoGetOverlayAnchor } from 'plasmo'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { sendToBackground } from '@plasmohq/messaging'
@@ -42,6 +42,7 @@ const PlasmoOverlay = () => {
   const [videoUrl, setVideoUrl] = useState('')
   const [videoTitle, setVideoTitle] = useState('')
   const [copiedText, setCopiedText] = useState('')
+  const [isOpenMore, setIsOpenMore] = useState(false)
 
   useInterval(
     () => {
@@ -97,7 +98,7 @@ const PlasmoOverlay = () => {
 
   const addVideo = async () => {
     if (currentVideo === null) {
-      alert('Video is not setted, can not add to exported List')
+      alert('Video is not set, can not add to exported List')
     }
 
     const resp = await sendToBackground<Video, Video>({
@@ -106,43 +107,49 @@ const PlasmoOverlay = () => {
     })
   }
 
+  const handleShowPanel = () => {
+    setIsOpenMore(!isOpenMore)
+  }
+  // w-1/4
   return (
-    <div className="bg-lime-600 fixed top-50 right-0 opacity-80 w-1/4">
-      <div className="flex flex-col">
-        <div className="basis-5/12">{videoUrl}</div>
-        <div className="basis-5/12">{videoTitle}</div>
-        <div className="basis-2/12">
-          <button className="btn" onClick={cleanVideos}>
-            Clean Videos
-          </button>
-          {/* <button
-            className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"
-            onClick={syncUrl}>
-            Get Url
-          </button> */}
-
-          <button className="btn btn-primary" onClick={addVideo}>
-            Add to export list
-          </button>
-
-          {/* <button
-            className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"
-            onClick={addVideo}>
-            Add to export list
-          </button> */}
-
-          <CopyToClipboard text={copiedText}>
-            <button className="btn btn-accent" onClick={addVideo}>
-              Copy to clipboard
-            </button>
-            {/* <button
-              className="pointer-events-auto rounded-md bg-indigo-600 py-2 px-3 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500"
-              onClick={addVideo}>
-              Copy to clipboard
-            </button> */}
-          </CopyToClipboard>
-        </div>
+    <div className="fixed top-50 right-2">
+      <div className="buttonContainer flex mt-2 mb-3 justify-end">
+        <button
+          className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
+          onClick={addVideo}>
+          添加
+        </button>
+        <button
+          onClick={handleShowPanel}
+          className="bg-purple-600 text-white btn hover:bg-purple-800">
+          {isOpenMore ? '关闭' : 'More'}
+        </button>
       </div>
+      {isOpenMore && (
+        <div className="bg-sky-600 rounded border-2 border-slate-100 border-dotted text-base text-white p-2 tracking-normal whitespace-normal">
+          <p className="truncate">{videoUrl}</p>
+          <p className="truncate">{videoTitle}</p>
+          <div className="flex flex-row justify-end mt-2">
+            <CopyToClipboard text={copiedText}>
+              <button className="btn mr-2 bg-purple-600 hover:bg-purple-800">
+                Copy
+              </button>
+            </CopyToClipboard>
+
+            <CopyToClipboard text={videoUrl}>
+              <button className="btn mr-2 bg-purple-600 hover:bg-purple-800">
+                Copy Url
+              </button>
+            </CopyToClipboard>
+
+            <button
+              className="btn bg-rose-600 hover:bg-rose-800"
+              onClick={cleanVideos}>
+              Clean Videos
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
