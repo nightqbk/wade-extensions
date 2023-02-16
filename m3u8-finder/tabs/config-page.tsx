@@ -15,7 +15,7 @@ enum Tabs {
 }
 
 const DeltaFlyerPage = () => {
-  const [currentTab, setCurrentTab] = useState<Tabs>(Tabs.Config)
+  const [currentTab, setCurrentTab] = useState<Tabs>(Tabs.Videos)
   const handleSwitchTab = (e) => {
     const tab = e.target.dataset.tab as Tabs
     setCurrentTab(tab)
@@ -25,20 +25,20 @@ const DeltaFlyerPage = () => {
     <div className="container mx-auto">
       <div className="tabs tabs-boxed justify-center">
         <a
-          data-tab={Tabs.Config}
-          className={`tab tab-lg ${
-            Tabs.Config == currentTab ? 'tab-active' : ''
-          }`}
-          onClick={handleSwitchTab}>
-          配置
-        </a>
-        <a
           data-tab={Tabs.Videos}
           className={`tab tab-lg ${
             Tabs.Videos == currentTab ? 'tab-active' : ''
           }`}
           onClick={handleSwitchTab}>
           视频
+        </a>
+        <a
+          data-tab={Tabs.Config}
+          className={`tab tab-lg ${
+            Tabs.Config == currentTab ? 'tab-active' : ''
+          }`}
+          onClick={handleSwitchTab}>
+          配置
         </a>
       </div>
       {Tabs.Config == currentTab && <CustomerConfig />}

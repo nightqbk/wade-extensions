@@ -121,11 +121,13 @@ const PlasmoOverlay = () => {
   return (
     <div className="fixed top-50 right-2">
       <div className="buttonContainer flex mt-2 mb-3 justify-end">
-        <button
-          className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
-          onClick={addVideo}>
-          添加
-        </button>
+        {videoUrl != '' && (
+          <button
+            className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
+            onClick={addVideo}>
+            添加
+          </button>
+        )}
         <button
           onClick={handleShowPanel}
           className="bg-purple-600 text-white btn hover:bg-purple-800">

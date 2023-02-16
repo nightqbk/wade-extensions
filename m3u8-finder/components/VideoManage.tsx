@@ -54,9 +54,10 @@ const VideoManage = () => {
 
   const handleRemoveSelected = async () => {
     const toRemoveVideos = videos.filter((c) => c.isChecked)
-    toRemoveVideos.forEach(async (video) => {
-      await removeVideo(video.id)
-    })
+    const videoLength = toRemoveVideos.length
+    for (let index = 0; index < videoLength; index++) {
+      await removeVideo(toRemoveVideos[index].id)
+    }
 
     const newVideos = videos.filter((c) => c.isChecked === false)
     setVideos(newVideos)
