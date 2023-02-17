@@ -1,13 +1,15 @@
 // import cssText from 'data-text:~/contents/plasmo-overlay.css'
 import cssText from 'data-text:~/css/style.css'
 import type { PlasmoCSConfig, PlasmoGetOverlayAnchor } from 'plasmo'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { sendToBackground } from '@plasmohq/messaging'
 
 import { useInterval } from '~hooks/useInterval'
 import type { Video } from '~models/model.types'
+import { getMatchedXpath } from '~services/ConfigService'
+import { queryByXPath } from '~utils/xpath.util'
 
 export const config: PlasmoCSConfig = {
   matches: ['https://*/*', 'http://*/*'],
@@ -18,23 +20,6 @@ export const getStyle = () => {
   const style = document.createElement('style')
   style.textContent = cssText
   return style
-}
-
-const $x = (xpath) => {
-  const xResult = document.evaluate(
-    xpath,
-    document,
-    null,
-    XPathResult.ANY_TYPE,
-    null
-  )
-  const xNodes = []
-  let xres
-  while ((xres = xResult.iterateNext())) {
-    xNodes.push(xres)
-  }
-
-  return xNodes
 }
 
 const PlasmoOverlay = () => {
@@ -53,8 +38,9 @@ const PlasmoOverlay = () => {
   )
 
   useEffect(() => {
-    const title = getTitle()
-    setVideoTitle(title)
+    getTitle().then((c) => {
+      setVideoTitle(c)
+    })
   }, [])
 
   useEffect(() => {
@@ -62,11 +48,14 @@ const PlasmoOverlay = () => {
     setCopiedText(text)
   }, [videoTitle, videoUrl])
 
-  const getTitle = (): string => {
-    const nodes = $x(
-      // '//*[@id="site-content"]/div/div/div[1]/section[2]/div[1]/div[1]/h4'
-      '//*[@id="site-content"]/div/div/div[1]/section[2]/div[1]/div[1]/h4'
-    )
+  const getTitle = async () => {
+    const xpathStr = await getMatchedXpath(document.location.href)
+
+    let nodes
+    if (xpathStr) {
+      nodes = queryByXPath(xpathStr)
+    }
+
     let title = ''
     if (nodes && nodes.length > 0) {
       title = nodes[0].innerText
@@ -80,17 +69,15 @@ const PlasmoOverlay = () => {
       body: '123'
     })
     if (resp) {
-      console.log('resp', resp)
       alert('clean success')
     }
   }
 
   const syncUrl = async () => {
-    console.log('try times')
     const resp = await sendToBackground<any, Video>({
       name: 'sync-video-info',
       body: {
-        title: getTitle()
+        title: videoTitle
       }
     })
 
@@ -154,7 +141,7 @@ const PlasmoOverlay = () => {
             <button
               className="btn bg-rose-600 hover:bg-rose-800"
               onClick={cleanVideos}>
-              Clean Videos
+              Clean Temp Videos
             </button>
           </div>
         </div>

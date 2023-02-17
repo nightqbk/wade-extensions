@@ -64,3 +64,15 @@ export const updateM3u8Rules = async (m3u8Rule: string) => {
 export const getM3u8Rules = async () => {
   return await storage.get<string>(keys.m3u8Rules)
 }
+
+export const getMatchedXpath = async (url: string) => {
+  const titleRules = await getRules()
+  for (const rule of titleRules) {
+    const configUrl = new URL(rule.domain)
+    if (configUrl.hostname === new URL(url).hostname) {
+      return rule.xpath
+    }
+  }
+
+  return undefined
+}
