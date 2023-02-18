@@ -57,6 +57,7 @@ const PlasmoOverlay = () => {
     }
 
     let title = ''
+    console.debug('title nodes', nodes, xpathStr)
     if (nodes && nodes.length > 0) {
       title = nodes[0].innerText
     }
@@ -74,6 +75,10 @@ const PlasmoOverlay = () => {
   }
 
   const syncUrl = async () => {
+    let title = videoTitle
+    if (title === '') {
+      title = await getTitle()
+    }
     const resp = await sendToBackground<any, Video>({
       name: 'sync-video-info',
       body: {
@@ -88,6 +93,7 @@ const PlasmoOverlay = () => {
     }
 
     setTryTimes(tryTimes + 1)
+    console.debug('tryTimes', tryTimes)
   }
 
   const addVideo = async () => {
@@ -101,6 +107,19 @@ const PlasmoOverlay = () => {
     })
   }
 
+  const sendVideo = async () => {
+    if (currentVideo === null) {
+      alert('Video is not set, can not add to exported List')
+    }
+
+    const resp = await sendToBackground<Video, Video>({
+      name: 'send-to-backend',
+      body: currentVideo
+    })
+
+    alert(resp)
+  }
+
   const handleShowPanel = () => {
     setIsOpenMore(!isOpenMore)
   }
@@ -109,11 +128,19 @@ const PlasmoOverlay = () => {
     <div className="fixed top-50 right-2">
       <div className="buttonContainer flex mt-2 mb-3 justify-end">
         {videoUrl != '' && (
-          <button
-            className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
-            onClick={addVideo}>
-            添加
-          </button>
+          <>
+            <button
+              className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
+              onClick={addVideo}>
+              添加
+            </button>
+
+            <button
+              className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
+              onClick={sendVideo}>
+              Send
+            </button>
+          </>
         )}
         <button
           onClick={handleShowPanel}
