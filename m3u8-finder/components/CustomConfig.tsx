@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 
 import type { Rule } from '~models/model.types'
@@ -75,6 +75,7 @@ const CustomConfig = () => {
           New
         </button>
       </div>
+      <ToastContainer />
     </>
   )
 }

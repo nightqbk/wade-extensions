@@ -42,7 +42,8 @@
       "declarativeNetRequestWithHostAccess",
       "declarativeNetRequestFeedback",
       "tabs",
-      "activeTab"
+      "activeTab",
+      "contextMenus"
     ],
     "host_permissions": [
       "https://*/*"

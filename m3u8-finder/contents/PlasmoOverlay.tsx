@@ -29,6 +29,7 @@ const PlasmoOverlay = () => {
   const [copiedText, setCopiedText] = useState('')
   const [isOpenMore, setIsOpenMore] = useState(false)
   const [tryTimes, setTryTimes] = useState(0)
+  const [isSendUrlSuccess, setIsSendUrlSuccess] = useState(false)
 
   useInterval(
     () => {
@@ -93,7 +94,6 @@ const PlasmoOverlay = () => {
     }
 
     setTryTimes(tryTimes + 1)
-    console.debug('tryTimes', tryTimes)
   }
 
   const addVideo = async () => {
@@ -112,12 +112,14 @@ const PlasmoOverlay = () => {
       alert('Video is not set, can not add to exported List')
     }
 
-    const resp = await sendToBackground<Video, Video>({
+    const resp = await sendToBackground<Video, string>({
       name: 'send-to-backend',
       body: currentVideo
     })
 
-    alert(resp)
+    if (resp === 'success') {
+      setIsSendUrlSuccess(true)
+    }
   }
 
   const handleShowPanel = () => {
@@ -137,7 +139,8 @@ const PlasmoOverlay = () => {
 
             <button
               className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
-              onClick={sendVideo}>
+              onClick={sendVideo}
+              disabled={isSendUrlSuccess}>
               Send
             </button>
           </>

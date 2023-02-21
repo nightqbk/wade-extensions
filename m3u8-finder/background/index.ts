@@ -1,4 +1,3 @@
-import { match } from 'assert'
 import random from 'random'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -6,6 +5,23 @@ import type { Video } from '~models/model.types'
 import { getM3u8Rules } from '~services/ConfigService'
 
 import { addVideo } from '../services/TempVideoStorageService'
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: 'menu.videos',
+    title: 'Videos',
+    contexts: [
+      'browser_action',
+      'page',
+      'frame',
+      'image',
+      'link',
+      'video',
+      'audio',
+      'selection'
+    ]
+  })
+})
 
 chrome.declarativeNetRequest.updateDynamicRules(
   {
