@@ -1,6 +1,8 @@
-// import cssText from 'data-text:~/contents/plasmo-overlay.css'
 import cssText from 'data-text:~/css/style.css'
-import type { PlasmoCSConfig, PlasmoGetOverlayAnchor } from 'plasmo'
+import type { PlasmoCSConfig } from 'plasmo'
+
+import 'react-toastify/dist/ReactToastify.css'
+
 import { useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
@@ -118,6 +120,7 @@ const PlasmoOverlay = () => {
     })
 
     if (resp === 'success') {
+      // toast.success('send to backend success')
       setIsSendUrlSuccess(true)
     }
   }
@@ -127,56 +130,57 @@ const PlasmoOverlay = () => {
   }
 
   return (
-    <div className="fixed top-50 right-2">
-      <div className="buttonContainer flex mt-2 mb-3 justify-end">
-        {videoUrl != '' && (
-          <>
-            <button
-              className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
-              onClick={addVideo}>
-              添加
-            </button>
-
-            <button
-              className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
-              onClick={sendVideo}
-              disabled={isSendUrlSuccess}>
-              Send
-            </button>
-          </>
-        )}
-        <button
-          onClick={handleShowPanel}
-          className="bg-purple-600 text-white btn hover:bg-purple-800">
-          {isOpenMore ? '关闭' : 'More'}
-        </button>
-      </div>
-      {isOpenMore && (
-        <div className="bg-sky-600 rounded border-2 border-slate-100 border-dotted text-base text-white p-2 tracking-normal whitespace-normal">
-          <p className="truncate">{videoUrl}</p>
-          <p className="truncate">{videoTitle}</p>
-          <div className="flex flex-row justify-end mt-2">
-            <CopyToClipboard text={copiedText}>
-              <button className="btn mr-2 bg-purple-600 hover:bg-purple-800">
-                Copy
+    <>
+      <div className="fixed top-50 right-2">
+        <div className="buttonContainer flex mt-2 mb-3 justify-end">
+          {videoUrl != '' && (
+            <>
+              <button
+                className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
+                onClick={sendVideo}>
+                {isSendUrlSuccess ? 'sent success' : 'send'}
               </button>
-            </CopyToClipboard>
 
-            <CopyToClipboard text={videoUrl}>
-              <button className="btn mr-2 bg-purple-600 hover:bg-purple-800">
-                Copy Url
+              <button
+                className="bg-purple-600 text-white btn mr-1 hover:bg-purple-800"
+                onClick={addVideo}>
+                添加
               </button>
-            </CopyToClipboard>
-
-            <button
-              className="btn bg-rose-600 hover:bg-rose-800"
-              onClick={cleanVideos}>
-              Clean Temp Videos
-            </button>
-          </div>
+            </>
+          )}
+          <button
+            onClick={handleShowPanel}
+            className="bg-purple-600 text-white btn hover:bg-purple-800">
+            {isOpenMore ? '关闭' : 'More'}
+          </button>
         </div>
-      )}
-    </div>
+        {isOpenMore && (
+          <div className="bg-sky-600 rounded border-2 border-slate-100 border-dotted text-base text-white p-2 tracking-normal whitespace-normal">
+            <p className="truncate">{videoUrl}</p>
+            <p className="truncate">{videoTitle}</p>
+            <div className="flex flex-row justify-end mt-2">
+              <CopyToClipboard text={copiedText}>
+                <button className="btn mr-2 bg-purple-600 hover:bg-purple-800">
+                  Copy
+                </button>
+              </CopyToClipboard>
+
+              <CopyToClipboard text={videoUrl}>
+                <button className="btn mr-2 bg-purple-600 hover:bg-purple-800">
+                  Copy Url
+                </button>
+              </CopyToClipboard>
+
+              <button
+                className="btn bg-rose-600 hover:bg-rose-800"
+                onClick={cleanVideos}>
+                Clean Temp Videos
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 

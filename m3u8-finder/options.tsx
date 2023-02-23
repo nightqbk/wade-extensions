@@ -1,16 +1,19 @@
-import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 
-import CustomConfig from './components/CustomConfig'
+import 'react-toastify/dist/ReactToastify.css'
+
+import BasicOptions from './components/BasicOptions'
 
 import './css/style.css'
 
 function OptionsIndex() {
-  const [data, setData] = useState('')
-
   return (
-    <div className="container mx-auto">
-      <CustomConfig />
-    </div>
+    <>
+      <div className="container mx-auto">
+        <BasicOptions />
+      </div>
+      <ToastContainer />
+    </>
   )
 }
 

@@ -3,6 +3,8 @@ import type { PlasmoMessaging } from '@plasmohq/messaging'
 import type { Video } from '~models/model.types'
 import type { PostVideo } from '~models/request.types'
 
+import { getBasicOptions } from '../../services/ConfigService'
+
 async function postData(url = '', data = {}) {
   const response = await fetch(url, {
     method: 'POST',
@@ -27,12 +29,14 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
       name: video.title,
       sourcePageUrl: video.pageUrl
     }
-
-    const res = await postData('https://localhost:7109/videos', request).then(
-      (data) => {
-        console.log(data) // JSON data parsed by `data.json()` call
-      }
-    )
+    const options = await getBasicOptions()
+    let apiPrefix = options.apiPrefix
+    if (options.apiPrefix === '') {
+      apiPrefix = 'http://localhost:5000/api'
+    }
+    const res = await postData(`${apiPrefix}/videos`, request).then((data) => {
+      console.log(data) // JSON data parsed by `data.json()` call
+    })
   }
 
   res.send('success')

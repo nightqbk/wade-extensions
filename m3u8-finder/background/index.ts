@@ -2,7 +2,7 @@ import random from 'random'
 import { v4 as uuidv4 } from 'uuid'
 
 import type { Video } from '~models/model.types'
-import { getM3u8Rules } from '~services/ConfigService'
+import { getBasicOptions } from '~services/ConfigService'
 
 import { addVideo } from '../services/TempVideoStorageService'
 
@@ -69,7 +69,7 @@ chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(async (matched) => {
     // 最早添加video url的地方
     await addMeu8Video(matched)
   } else {
-    const ruleStr = await getM3u8Rules()
+    const ruleStr = await (await getBasicOptions()).m3u8Match
     if (ruleStr) {
       const rules = ruleStr.split(';')
       for (const m3u8Rule of rules) {

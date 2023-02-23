@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Rule } from '~models/model.types'
 import { addRule, updateRule } from '~services/ConfigService'
 
-const ConfigItem = (props) => {
+const OptionItem = (props) => {
   const [domain, setDomain] = useState(props.domain)
   const [xpath, setXPath] = useState(props.xpath)
 
@@ -79,4 +79,4 @@ const ConfigItem = (props) => {
   )
 }
 
-export default ConfigItem
+export default OptionItem

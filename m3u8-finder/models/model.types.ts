@@ -18,3 +18,9 @@ export type Rule = {
   xpath: string
   isNew?: boolean
 }
+
+export type BasicOptions = {
+  m3u8Match: string
+  // http:localhost:5000/api
+  apiPrefix: string
+}

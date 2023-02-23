@@ -1,11 +1,8 @@
-import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
 import VideoManage from '~components/VideoManage'
-
-import CustomerConfig from '../components/CustomConfig'
 
 import '../css/style.css'
 

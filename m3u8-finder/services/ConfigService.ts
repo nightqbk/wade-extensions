@@ -2,11 +2,12 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { Storage } from '@plasmohq/storage'
 
-import type { Rule } from '~models/model.types'
+import type { BasicOptions, Rule } from '~models/model.types'
 
 const keys = {
   rules: 'ConfigService__Rules',
-  m3u8Rules: 'ConfigService__m3u8'
+  m3u8Rules: 'ConfigService__m3u8',
+  basicOptions: 'ConfigService__basic'
 }
 
 const storage = new Storage({
@@ -57,12 +58,12 @@ export const removeRule = async (id: string) => {
   await storage.set(keys.rules, newRules)
 }
 
-export const updateM3u8Rules = async (m3u8Rule: string) => {
-  await storage.set(keys.m3u8Rules, m3u8Rule)
+export const getBasicOptions = async () => {
+  return await storage.get<BasicOptions>(keys.basicOptions)
 }
 
-export const getM3u8Rules = async () => {
-  return await storage.get<string>(keys.m3u8Rules)
+export const updateBasicOptions = async (options: BasicOptions) => {
+  await storage.set(keys.basicOptions, options)
 }
 
 export const getMatchedXpath = async (url: string) => {
