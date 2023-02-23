@@ -10,17 +10,17 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: 'menu.videos',
     title: 'Videos',
-    contexts: [
-      'browser_action',
-      'page',
-      'frame',
-      'image',
-      'link',
-      'video',
-      'audio',
-      'selection'
-    ]
+    contexts: ['action']
   })
+})
+
+chrome.contextMenus.onClicked.addListener((item, tab) => {
+  console.log('videos', item, tab)
+  const tld = item.menuItemId
+  const url = new URL(
+    `chrome-extension://${chrome.runtime.id}/tabs/config-page.html`
+  )
+  chrome.tabs.create({ url: url.href, index: tab.index + 1 })
 })
 
 chrome.declarativeNetRequest.updateDynamicRules(
