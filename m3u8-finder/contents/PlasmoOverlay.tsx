@@ -67,16 +67,6 @@ const PlasmoOverlay = () => {
     return title
   }
 
-  const cleanVideos = async () => {
-    const resp = await sendToBackground<any, Video>({
-      name: 'clean-videos',
-      body: '123'
-    })
-    if (resp) {
-      alert('clean success')
-    }
-  }
-
   const syncUrl = async () => {
     let title = videoTitle
     if (title === '') {
@@ -170,12 +160,6 @@ const PlasmoOverlay = () => {
                   Copy Url
                 </button>
               </CopyToClipboard>
-
-              <button
-                className="btn bg-rose-600 hover:bg-rose-800"
-                onClick={cleanVideos}>
-                Clean Temp Videos
-              </button>
             </div>
           </div>
         )}

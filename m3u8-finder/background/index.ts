@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Video } from '~models/model.types'
 import { getBasicOptions } from '~services/ConfigService'
 
-import { addVideo } from '../services/TempVideoStorageService'
+import { addVideo } from '../services/VideoCacheService'
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
@@ -15,10 +15,8 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 chrome.contextMenus.onClicked.addListener((item, tab) => {
-  console.log('videos', item, tab)
-  const tld = item.menuItemId
   const url = new URL(
-    `chrome-extension://${chrome.runtime.id}/tabs/config-page.html`
+    `chrome-extension://${chrome.runtime.id}/tabs/videos-page.html`
   )
   chrome.tabs.create({ url: url.href, index: tab.index + 1 })
 })

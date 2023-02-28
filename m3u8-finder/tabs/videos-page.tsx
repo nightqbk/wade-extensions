@@ -2,7 +2,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import VideoManage from '~components/VideoManage'
+import VideoManage from '~components/videos/VideoManage'
 
 import '../css/style.css'
 
